@@ -2,6 +2,11 @@ import userModel from "../models/usermodel.js";
 export const getUserData = async(req,res) =>
 {
   try{
+      console.log(req.body);
+       if(!req.body.userId)
+       {
+         return res.json({success:false, message: 'User ID is required'});
+       }
        const {userId}  = req.body;
        const user  = await userModel.findById(userId);
        if(!user)return res.json({success:false, message: 'Invalid otp'});
