@@ -1,4 +1,6 @@
+import Nonvegmodel from "../models/nonvegmenumodel.js";
 import userModel from "../models/usermodel.js";
+import Vegmenumodel from "../models/vegmenumodel.js";
 export const getUserData = async(req,res) =>
 {
   try{
@@ -27,85 +29,145 @@ export const getUserData = async(req,res) =>
   }
 }
 
-// export const addvegitem = async(req,res) =>
-// {
-//   try{
-//     const {name, categoy, image} = req.body;
-//     if(!name || !categoy || !image)
-//     {
-//       return res.json({success:false, message:'All fields are required'});
-//     }
-//     const newItem = new vegitemModel({
-//       name,
-//       categoy,
-//       image
-//     });
-//     await newItem.save();
-//     res.json({success:true, message:'Veg item added successfully', item: newItem});
-//   }
-//   catch(error)
-//   {
-//     return res.json({success:false, message:error.message});
-//   }
-// }
+export const getvegMenu = async(req,res) =>
+ {
+  try{
+      const vegMenu = await Vegmenumodel.find();
+      res.json({success:true, vegMenu:vegMenu});
+  }
+  catch(error)
+  {
+    return res.json({success:false, message: error.message});
+  }
+ }
 
-// export const addnonvegitem = async(req,res) => 
-// {
-//   try{
-//     const {name, categoy, image} = req.body;
-//     if(!name || !categoy || !image)
-//     {
-//       return res.json({success:false, message:'All fields are required'});
-//     }
-//     const newItem = new nonvegitemModel({
-//       name,
-//       categoy,
-//       image
-//     });
-//     await newItem.save();
-//     res.json({success:true, message:'Non veg item added successfully', item: newItem});
-//   }
-//   catch(error)
-//   {
-//     return res.json({success:false, message:error.message});
-//   }
+ export const getNonvegMenu = async(req,res) =>
+ {
+  try{
+      const nonvegMenu = await Nonvegmodel.find();
+      res.json({success:true, nonvegMenu:nonvegMenu});
+  }
+  catch(error)
+  {
+    return res.json({success:false, message: error.message});
+  }
+ }
 
-// }
-// export const addvegcategory = async(req,res) =>
-// {
-//   try{
-//     const {name} = req.body;
-//     if(!name)
-//     {
-//       return res.json({success:false, message:'All fields are required'});
-//     }
-//     const newCategory = new vegcategoryModel({
-//       name
-//     });
-//     await newCategory.save();
-//     res.json({success:true, message:'Veg category added successfully', category: newCategory});
-//   }
-//   catch(error)
-//   {
-//     return res.json({success:false, message:error.message});
-//   }
-// }
-// export const addnonvegcategory = async(req, res) =>
-// {
-//   try{
-//     const {name} = req.body;
-//     if(!name)
-//     {
-//       return res.json({success:false, message:'All fields are required'});
-//     }
-//     const newCategory = new nonvegcategoryModel({
-//       name
-//     });
-//     await newCategory.save();
-//     res.json({success:true, message:'Non veg category added successfully', category: newCategory});
-//   }
-//   catch(error)
-//   {
-//     return res.json({success:false, message:error.message});
-//   }
-// }
+ export const addvegmenu = async(req,res) =>
+ {    
+  try{
+      const {category,name,image} = req.body;
+      console.log(req.body);
+      if(!category)
+      {
+        return res.json({success:false, message: 'category, name and image are required'});
+      }
+      const items = [{name,image}];
+      const existingVegMenu = await Vegmenumodel.findOne({ category });
+      if(existingVegMenu)
+      {
+        existingVegMenu.items.push({name,image});
+        await existingVegMenu.save();
+        return res.json({success:true, message: 'Veg menu updated successfully'});
+      }
+      else
+      {
+        const newVegMenu = new Vegmenumodel({
+          category,
+          items
+        });
+        await newVegMenu.save();
+        return res.json({success:true, message: 'Veg menu added successfully'});
+      }   
+  }
+  catch(error)
+  {
+    return res.json({success:false, message: error.message});
+  }
+ }
+ export const addnonvegmenu = async(req, res) =>
+ {
+  try{
+      const {category,name,image} = req.body;
+      console.log(req.body);
+      if(!category || !name || !image)
+      {
+        return res.json({success:false, message: 'category, name and image are required'});
+      }
+      const items = [{name, image}];
+      const existingNonvegMenu = await Nonvegmodel.findOne({ category });
+      if(existingNonvegMenu)
+      {
+        existingNonvegMenu.items.push({name, image});
+        await existingNonvegMenu.save();
+        return res.json({success:true, message: 'Nonveg menu updated successfully'});
+      }
+      else
+      {
+        const newNonvegMenu = new Nonvegmodel({
+          category,
+          items
+        });
+        await newNonvegMenu.save();
+        return res.json({success:true, message: 'Nonveg menu added successfully'});
+      }
+  }
+  catch(error)
+  {
+    return res.json({success:false, message: error.message});
+  }
+ }
+
+ export const updatecategorynameinveg  = async(req, res) =>
+ {
+  try{
+      const {category, newCategory} = req.body;
+      if(!category || !newCategory)
+      {
+        return res.json({success:false, message: 'category and newCategory are required'});
+      }
+      const existingVegMenu = await Vegmenumodel.findOne({ category });
+      if(existingVegMenu)
+      {
+        existingVegMenu.category = newCategory;
+        await existingVegMenu.save();
+        return res.json({success:true, message: 'Veg menu category updated successfully'});
+      }
+      else
+      {
+        return res.json({success:false, message: 'Veg menu category not found'});
+      }
+  }
+  catch(error)
+  {
+    return res.json({success:false, message: error.message});
+  }
+ }
+ 
+ export const updatecategorynameinnonveg  = async(req, res) =>
+ {
+  try{
+      const {category, newCategory} = req.body;
+      if(!category || !newCategory)
+      {
+        return res.json({success:false, message: 'category and newCategory are required'});
+      }
+      const existingNonvegMenu = await Nonvegmodel.findOne({ category });
+      if(existingNonvegMenu)
+      {
+        existingNonvegMenu.category = newCategory;
+        await existingNonvegMenu.save();
+        return res.json({success:true, message: 'Nonveg menu category updated successfully'});
+      }
+      else
+      {
+        return res.json({success:false, message: 'Nonveg menu category not found'});
+      }
+  }
+  catch(error)
+  {
+    return res.json({success:false, message: error.message});
+  }
+ }
+
+ 

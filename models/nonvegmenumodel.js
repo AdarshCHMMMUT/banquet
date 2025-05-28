@@ -8,8 +8,8 @@ const MenuItemSchema = new mongoose.Schema({
 const MenuCategorySchema = new mongoose.Schema({
   category: { type: String, required: true },
   items: [MenuItemSchema]
-});
+},{ collection: 'nonvegmenu' });
 
-const nonvegMenuCategory = mongoose.model('nonvegmenucategory', MenuCategorySchema);
+const Nonvegmodel = mongoose.model('nonvegmenucategory', MenuCategorySchema);
 
-export default nonvegMenuCategory;
+export default Nonvegmodel;
