@@ -1,6 +1,7 @@
 import Nonvegmodel from "../models/nonvegmenumodel.js";
 import userModel from "../models/usermodel.js";
 import Vegmenumodel from "../models/vegmenumodel.js";
+import Booking from "../models/bookingmodel.js";
 export const getUserData = async(req,res) =>
 {
   try{
@@ -169,5 +170,59 @@ export const getvegMenu = async(req,res) =>
     return res.json({success:false, message: error.message});
   }
  }
+
+ 
+
+export const bookHall = async (req, res) => {
+  try {
+    const {
+      guest_name,
+      email,
+      whatsapp_no,
+      mobile_no,
+      no_of_packs,
+      rate_plan,
+      veg_non_veg,
+      advance_payment,
+      total_payment,
+      balance,
+      items,
+      notes,
+      hall_name = "Default Hall",      
+      menu_category = "Default Menu",  
+      rate_per_pack = total_payment / no_of_packs,
+      startDate,
+      endDate 
+    } = req.body;
+
+    console.log(req.body);
+    const booking = new Booking({
+      guest_name,
+      email,
+      whatsapp_no,
+      mobile_no,
+      no_of_packs,
+      rate_plan,
+      veg_non_veg,
+      advance_payment,
+      total_payment,
+      balance,
+      menu_item : Object.values(items).flat().join(', '),
+      notes,
+      hall_name,
+      menu_category,
+      rate_per_pack,
+      startDate:startDate,
+      endDate:endDate
+    });
+
+    await booking.save();
+
+    return res.json({ success: true, message: "Booking created successfully", data: booking });
+
+  } catch (error) {
+    return res.json({ success: false, message: error.message, items: req.body.items });
+  }
+};
 
  
