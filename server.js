@@ -12,7 +12,7 @@ const port = process.env.PORT || 4000
 connectDB();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({origin: ['http://localhost:3001'],
+app.use(cors({origin: ['http://localhost:3001', 'https://banquetfront.vercel.app'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']}))
