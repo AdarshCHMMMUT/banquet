@@ -122,12 +122,12 @@ export const getvegMenu = async(req,res) =>
  export const updatecategorynameinveg  = async(req, res) =>
  {
   try{
-      const {category, newCategory} = req.body;
-      if(!category || !newCategory)
+      const {id, newCategory} = req.body;
+      if(!id || !newCategory)
       {
         return res.json({success:false, message: 'category and newCategory are required'});
       }
-      const existingVegMenu = await Vegmenumodel.findOne({ category });
+      const existingVegMenu = await Vegmenumodel.findById(id);
       if(existingVegMenu)
       {
         existingVegMenu.category = newCategory;
