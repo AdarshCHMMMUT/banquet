@@ -144,6 +144,30 @@ export const getvegMenu = async(req,res) =>
     return res.json({success:false, message: error.message});
   }
  }
+ export const deletevegcategory = async(req, res) => 
+ {
+  try{
+      const {id} = req.body;
+      if(!id)
+      {
+        return res.json({success:false, message: 'Category ID is required'});
+      }
+      const existingVegMenu = await Vegmenumodel.findById(id);
+      if(existingVegMenu)
+      {
+        await Vegmenumodel.deleteOne({_id:id});
+        return res.json({success:true, message: 'Veg menu category deleted successfully'});
+      }
+      else
+      {
+        return res.json({success:false, message: 'Veg menu category not found'});
+      }
+  }
+  catch(error)
+  {
+    return res.json({success:false, message: error.message});
+  }
+ }
  
  export const updatecategorynameinnonveg  = async(req, res) =>
  {
