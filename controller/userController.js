@@ -249,4 +249,71 @@ export const bookHall = async (req, res) => {
   }
 };
 
+export const editvegmenuitemnames = async (req,res) => {  
+  try {
+     const {category,name, newItemName, newItemImage} = req.body;
+      if(!category || !name || !newItemName || !newItemImage)
+      {
+        return res.json({success:false, message: 'category, name, newItemName and newItemImage are required'});
+      }
+      const existingVegMenu = await Vegmenumodel.findOne({ category:category,items: { $elemMatch: { name: name } } });
+      if(existingVegMenu)
+      {
+        const itemIndex = existingVegMenu.items.findIndex(item => item.name === name);
+        if(itemIndex !== -1)
+        {
+          existingVegMenu.items[itemIndex].name = newItemName;
+          existingVegMenu.items[itemIndex].image = newItemImage;
+          await existingVegMenu.save();
+          return res.json({success:true, message: 'Veg menu item updated successfully'});
+        }
+        else
+        {
+          return res.json({success:false, message: 'Item not found in the category'});
+        }
+      }
+      else
+      {
+        return res.json({success:false, message: 'Category not found'});
+      }
+     
+
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+}
+
+export const editnonvegmenuitemnames = async (req, res) => {
+  try {
+     const {category,name, newItemName, newItemImage} = req.body;
+      if(!category || !name || !newItemName || !newItemImage)
+      {
+        return res.json({success:false, message: 'category, name, newItemName and newItemImage are required'});
+      }
+      const existingNonvegMenu = await Nonvegmodel.findOne({ category:category, items: { $elemMatch: { name: name } } });
+      if(existingNonvegMenu)
+      {
+        const itemIndex = existingNonvegMenu.items.findIndex(item => item.name === name);
+        if(itemIndex !== -1)
+        {
+          existingNonvegMenu.items[itemIndex].name = newItemName;
+          existingNonvegMenu.items[itemIndex].image = newItemImage;
+          await existingNonvegMenu.save();
+          return res.json({success:true, message: 'Nonveg menu item updated successfully'});
+        }
+        else
+        {
+          return res.json({success:false, message: 'Item not found in the category'});
+        }
+      }
+      else
+      {
+        return res.json({success:false, message: 'Category not found'});
+      }
+
+
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+}
  
