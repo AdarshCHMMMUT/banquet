@@ -1,5 +1,5 @@
 import express from 'express'
-import { getUserData, getvegMenu, getNonvegMenu, addvegmenu, addnonvegmenu, updatecategorynameinveg, updatecategorynameinnonveg, bookHall, deletevegcategory, editvegmenuitemnames, editnonvegmenuitemnames } from '../controller/userController.js';
+import { getUserData, getvegMenu, getNonvegMenu, addvegmenu, addnonvegmenu, updatecategorynameinveg, updatecategorynameinnonveg, bookHall, deletevegcategory, editvegmenuitemnames, editnonvegmenuitemnames,  deletenonvegcategory } from '../controller/userController.js';
 
 const userRouter = express.Router();
 
@@ -13,6 +13,8 @@ userRouter.post('/editnonvegmenuitemname', editnonvegmenuitemnames);
 userRouter.post('/updatecategorynameinveg', updatecategorynameinveg);
 userRouter.post('/updatecategorynameinveg', updatecategorynameinveg);
 userRouter.delete('/deletevegcategory',deletevegcategory);
+userRouter.delete('/deletenonvegcategory',deletenonvegcategory);
 userRouter.post('/updatenonvegcategoryname', updatecategorynameinnonveg);
 userRouter.post('/bookhall',bookHall);  
+
 export default userRouter;

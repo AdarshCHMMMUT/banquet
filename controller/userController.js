@@ -168,6 +168,31 @@ export const getvegMenu = async(req,res) =>
     return res.json({success:false, message: error.message});
   }
  }
+
+ export const deletenonvegcategory = async(req, res) =>
+ {
+  try{
+      const {id} = req.body;
+      if(!id)
+      {
+        return res.json({success:false, message: 'Category ID is required'});
+      }
+      const existingNonvegMenu = await Nonvegmodel.findById(id);
+      if(existingNonvegMenu)
+      {
+        await Nonvegmodel.deleteOne({_id:id});
+        return res.json({success:true, message: 'Nonveg menu category deleted successfully'});
+      }
+      else
+      {
+        return res.json({success:false, message: 'Nonveg menu category not found'});
+      }
+  }
+  catch(error)
+  {
+    return res.json({success:false, message: error.message});
+  }
+ }
  
  export const updatecategorynameinnonveg  = async(req, res) =>
  {
