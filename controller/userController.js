@@ -341,4 +341,65 @@ export const editnonvegmenuitemnames = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 }
+
+export const deletevegmenuitem = async (req, res) => {
+  try {
+    const { id, category } = req.body;
+
+    if (!category || !id) {
+      return res.json({ success: false, message: 'Category and ID are required' });
+    }
+
+    const existingVegMenu = await Vegmenumodel.findOne({
+      category: category,
+      items: { $elemMatch: { _id: id } }
+    });
+
+    if (existingVegMenu) {
+      const itemIndex = existingVegMenu.items.findIndex(
+        item => item._id.toString() === id
+      );
+
+      if (itemIndex !== -1) {
+        existingVegMenu.items.splice(itemIndex, 1);
+        await existingVegMenu.save();
+        return res.json({ success: true, message: 'Veg menu item deleted successfully' });
+      } else {
+        return res.json({ success: false, message: 'Item not found in the category' });
+      }
+    } else {
+      return res.json({ success: false, message: 'Category or item not found' });
+    }
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+export const deletenonvegmenuitem = async (req, res) => {
+  try {
+    const {id,category} = req.body;
+    if(!category || !id)
+    {
+      return res.json({success:false, message: 'category and id are required'});
+    }
+    const existingNonvegMenu = await Nonvegmodel.findOne({ category:category, items: { $elemMatch: { _id: id } } });
+    if(existingNonvegMenu)
+    {
+      const itemIndex = existingNonvegMenu.items.findIndex(item => item._id.toString() === id);
+      if(itemIndex !== -1)
+      {
+        existingNonvegMenu.items.splice(itemIndex, 1);
+        await existingNonvegMenu.save();
+        return res.json({success:true, message: 'Nonveg menu item deleted successfully'});
+      }
+      else
+      {
+        return res.json({success:false, message: 'Item not found in the category'});
+      }
+    }
+  }
+  catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+}
  

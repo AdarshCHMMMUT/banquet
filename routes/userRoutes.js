@@ -1,5 +1,5 @@
 import express from 'express'
-import { getUserData, getvegMenu, getNonvegMenu, addvegmenu, addnonvegmenu, updatecategorynameinveg, updatecategorynameinnonveg, bookHall, deletevegcategory, editvegmenuitemnames, editnonvegmenuitemnames,  deletenonvegcategory } from '../controller/userController.js';
+import { getUserData, getvegMenu, getNonvegMenu, addvegmenu, addnonvegmenu, updatecategorynameinveg, updatecategorynameinnonveg, bookHall, deletevegcategory, editvegmenuitemnames, editnonvegmenuitemnames,  deletenonvegcategory, deletevegmenuitem, deletenonvegmenuitem} from '../controller/userController.js';
 
 const userRouter = express.Router();
 
@@ -9,7 +9,9 @@ userRouter.get('/nonvegmenu', getNonvegMenu);
 userRouter.post('/addvegmenu', addvegmenu);
 userRouter.post('/addnonvegmenu', addnonvegmenu);
 userRouter.post('/editvegmenuitemname',editvegmenuitemnames );
+userRouter.post('/deletevegmenuitem', deletevegmenuitem);
 userRouter.post('/editnonvegmenuitemname', editnonvegmenuitemnames);
+userRouter.post('/deletenonvegmenuitemname', deletenonvegmenuitem);
 userRouter.post('/updatecategorynameinveg', updatecategorynameinveg);
 userRouter.post('/updatecategorynameinveg', updatecategorynameinveg);
 userRouter.delete('/deletevegcategory',deletevegcategory);
