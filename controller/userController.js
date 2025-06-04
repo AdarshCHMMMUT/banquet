@@ -412,4 +412,13 @@ export const getlimits = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 }
+export const updatelimits = async (req, res) => {
+  try {
+    const { id, limits } = req.body;
+    const updatedLimit = await SelectionLimit.findByIdAndUpdate(id, { limits }, { new: true });
+    res.json({ success: true, data: updatedLimit });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+}
  
