@@ -2,6 +2,7 @@ import Nonvegmodel from "../models/nonvegmenumodel.js";
 import userModel from "../models/usermodel.js";
 import Vegmenumodel from "../models/vegmenumodel.js";
 import Booking from "../models/bookingmodel.js";
+import { SelectionLimit } from "../models/limitmodel.js";
 export const getUserData = async(req,res) =>
 {
   try{
@@ -400,6 +401,15 @@ export const deletenonvegmenuitem = async (req, res) => {
   }
   catch (error) {
     res.json({ success: false, message: error.message });
+  }
+}
+
+export const getlimits = async (req, res) => {
+  try {
+    const limits = await SelectionLimit.find();
+    res.json({ success: true, data: limits });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 }
  

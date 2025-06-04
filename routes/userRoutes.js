@@ -1,5 +1,6 @@
 import express from 'express'
-import { getUserData, getvegMenu, getNonvegMenu, addvegmenu, addnonvegmenu, updatecategorynameinveg, updatecategorynameinnonveg, bookHall, deletevegcategory, editvegmenuitemnames, editnonvegmenuitemnames,  deletenonvegcategory, deletevegmenuitem, deletenonvegmenuitem} from '../controller/userController.js';
+import { getUserData, getvegMenu, getNonvegMenu, addvegmenu, addnonvegmenu, updatecategorynameinveg, updatecategorynameinnonveg, bookHall, deletevegcategory, editvegmenuitemnames, editnonvegmenuitemnames,  deletenonvegcategory, deletevegmenuitem, deletenonvegmenuitem, getlimits} from '../controller/userController.js';
+import { get } from 'mongoose';
 
 const userRouter = express.Router();
 
@@ -18,5 +19,6 @@ userRouter.delete('/deletevegcategory',deletevegcategory);
 userRouter.delete('/deletenonvegcategory',deletenonvegcategory);
 userRouter.post('/updatenonvegcategoryname', updatecategorynameinnonveg);
 userRouter.post('/bookhall',bookHall);  
+userRouter.get('/getlimits',getlimits)
 
 export default userRouter;
