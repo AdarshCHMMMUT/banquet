@@ -420,5 +420,13 @@ export const updatelimits = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
-}
- 
+} 
+
+export const getbookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find();
+    res.json({ success: true, data: bookings });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+} 

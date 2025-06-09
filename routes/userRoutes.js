@@ -1,5 +1,5 @@
 import express from 'express'
-import { getUserData, getvegMenu, getNonvegMenu, addvegmenu, addnonvegmenu, updatecategorynameinveg, updatecategorynameinnonveg, bookHall, deletevegcategory, editvegmenuitemnames, editnonvegmenuitemnames,  deletenonvegcategory, deletevegmenuitem, deletenonvegmenuitem, getlimits, updatelimits} from '../controller/userController.js';
+import { getUserData, getvegMenu, getNonvegMenu, addvegmenu, addnonvegmenu, updatecategorynameinveg, updatecategorynameinnonveg, bookHall, deletevegcategory, editvegmenuitemnames, editnonvegmenuitemnames,  deletenonvegcategory, deletevegmenuitem, deletenonvegmenuitem, getlimits, updatelimits, getbookings} from '../controller/userController.js';
 const userRouter = express.Router();
 userRouter.get('/data', getUserData);
 userRouter.get('/vegmenu', getvegMenu);
@@ -18,5 +18,6 @@ userRouter.post('/updatenonvegcategoryname', updatecategorynameinnonveg);
 userRouter.post('/bookhall',bookHall);  
 userRouter.get('/getlimits',getlimits);
 userRouter.post('/updatelimits',updatelimits);
+userRouter.get('/getbookings',getbookings);
 
 export default userRouter;
